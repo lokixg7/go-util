@@ -6,7 +6,7 @@ import (
 	"reflect"
 )
 
-// target：待验证元素，arr:元素slice
+// InArray reports whether target is present in arr.
 func InArray(target interface{}, arr interface{}) bool {
 	s := reflect.ValueOf(arr)
 
@@ -19,7 +19,7 @@ func InArray(target interface{}, arr interface{}) bool {
 	return false
 }
 
-// 两个数组的交集
+// Intersect writes the common elements of a and b to refRet.
 func Intersect(a, b, refRet interface{}) error {
 	var (
 		ifSlice []interface{}
@@ -45,9 +45,7 @@ func Intersect(a, b, refRet interface{}) error {
 	return err
 }
 
-//两个数组的差集
-// eg1. X : []int64{1,2,3,4}, Y: []int64{2,3,5,6}, 差集：[]int64{1,4}
-// eg1. X : []int64{2,3,5,6}, Y; []int64{1,2,3,4}, 差集：
+// Diff writes the elements in X that are not matched in Y to refRet.
 func Diff(X, Y, refRet interface{}) error {
 	var (
 		ifSlice []interface{}
@@ -75,7 +73,7 @@ func Diff(X, Y, refRet interface{}) error {
 	return err
 }
 
-// 数组去重
+// Unique writes the distinct elements of slice to refRet in first-occurrence order.
 func Unique(slice interface{}, refRet interface{}) error {
 	var (
 		ifSlice []interface{}
@@ -98,7 +96,7 @@ func Unique(slice interface{}, refRet interface{}) error {
 	return err
 }
 
-// 数组拼装为字符串
+// Explode joins the elements of array with delimiter.
 func Explode(delimiter string, array interface{}) string {
 	var (
 		joinStr string

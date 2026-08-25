@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// go test -v ./array_test.go array.go -test.run TestInArray
+// go test -v ./array -run '^TestInArray$'
 func TestInArray(t *testing.T) {
 	type args struct {
 		target interface{}
@@ -66,7 +66,7 @@ func TestInArray(t *testing.T) {
 	}
 }
 
-// go test -v ./array_test.go array.go -test.run TestIntersection
+// go test -v ./array -run '^TestIntersect$'
 func TestIntersect(t *testing.T) {
 	type args struct {
 		a interface{}
@@ -96,7 +96,7 @@ func TestIntersect(t *testing.T) {
 	}
 }
 
-// go test -v ./array_test.go array.go -test.run TestDiffArray
+// go test -v ./array -run '^TestDiff$'
 func TestDiff(t *testing.T) {
 	type args struct {
 		X interface{}
@@ -134,7 +134,7 @@ func TestDiff(t *testing.T) {
 	}
 }
 
-// go test -v ./array_test.go array.go -test.run TestUnique
+// go test -v ./array -run '^TestUnique$'
 func TestUnique(t *testing.T) {
 	type args struct {
 		slice interface{}
@@ -163,7 +163,7 @@ func TestUnique(t *testing.T) {
 	}
 }
 
-// go test -v ./array_test.go array.go -test.run TestExplodeArray
+// go test -v ./array -run '^TestExplode$'
 func TestExplode(t *testing.T) {
 	type args struct {
 		delimiter string

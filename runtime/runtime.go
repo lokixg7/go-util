@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-// 获取当前调用函数名字
+// GetCurCalleeFunc returns the name of its direct caller.
 func GetCurCalleeFunc() string {
 	pc, _, _, _ := runtime.Caller(1)
 	name := runtime.FuncForPC(pc).Name()
@@ -13,7 +13,7 @@ func GetCurCalleeFunc() string {
 	return pathList[len(pathList)-1]
 }
 
-// 获取父调用函数名字
+// GetParentCallFunc returns the name of its caller's parent.
 func GetParentCallFunc() string {
 	pc, _, _, _ := runtime.Caller(2)
 	name := runtime.FuncForPC(pc).Name()

@@ -6,8 +6,7 @@ import (
 	"reflect"
 )
 
-// s 是struct指针
-// fieldValues的key是struct成员名， value是成员目标修改值
+// SetStructFields sets fields on the struct pointer s using fieldValues.
 func SetStructFields(s interface{}, fieldValues map[string]interface{}) error {
 	value := reflect.ValueOf(s)
 	if value.Kind() != reflect.Ptr {
@@ -42,7 +41,7 @@ func SetStructFields(s interface{}, fieldValues map[string]interface{}) error {
 	return nil
 }
 
-// 将元素类型为struct的slice转换为map
+// ConvertToMap converts a slice of structs or struct pointers to a map keyed by key.
 func ConvertToMap(s interface{}, key string) (map[interface{}]interface{}, error) {
 	var (
 		isElemPtr bool

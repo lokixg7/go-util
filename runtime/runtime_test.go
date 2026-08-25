@@ -4,7 +4,7 @@ import (
 	"testing"
 )
 
-// go test -v ./runtime_test.go runtime.go -test.run TestGetCurCalleeFunc
+// go test -v ./runtime -run '^TestGetCurCalleeFunc$'
 func TestGetCurCalleeFunc(t *testing.T) {
 	tests := []struct {
 		name string
@@ -24,7 +24,7 @@ func TestGetCurCalleeFunc(t *testing.T) {
 	}
 }
 
-// go test -v ./runtime_test.go runtime.go -test.run TestGetParentCallFunc
+// go test -v ./runtime -run '^TestGetParentCallFunc$'
 func TestGetParentCallFunc(t *testing.T) {
 	tests := []struct {
 		name string

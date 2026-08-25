@@ -5,7 +5,7 @@ import (
 	"testing"
 )
 
-// go test -v ./struct_test.go structs.go -test.run TestSetStructFields
+// go test -v ./structs -run '^TestSetStructFields$'
 func TestSetStructFields(t *testing.T) {
 	type foo struct {
 		Name string
@@ -45,7 +45,7 @@ func TestSetStructFields(t *testing.T) {
 	}
 }
 
-// go test -v ./struct_test.go struct.go -test.run TestConvertToMap
+// go test -v ./structs -run '^TestConvertToMap$'
 func TestConvertToMap(t *testing.T) {
 	type User struct {
 		Id   uint64
