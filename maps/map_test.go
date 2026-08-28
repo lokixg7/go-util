@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-// go test -v ./map -run '^TestMap2List$'
+// go test -v ./maps -run '^TestMap2List$'
 func TestMap2List(t *testing.T) {
 	type args struct {
 		m interface{}

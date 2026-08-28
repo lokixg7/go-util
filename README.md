@@ -17,7 +17,7 @@ Import the packages you need:
 ```go
 import (
 	"github.com/lokixg7/go-util/array"
-	maps "github.com/lokixg7/go-util/map"
+	"github.com/lokixg7/go-util/maps"
 	"github.com/lokixg7/go-util/runtime"
 	"github.com/lokixg7/go-util/structs"
 )
@@ -87,7 +87,7 @@ joined := array.Explode(",", []string{"go", "util", "array"})
 
 ## Map Utilities
 
-Package: `github.com/lokixg7/go-util/map` (package name `maps`, since `map` is a Go keyword)
+Package: `github.com/lokixg7/go-util/maps`
 
 ### `Map2List`
 
@@ -167,8 +167,8 @@ Run `TestInArray` in the array package:
 go test -v ./array -run '^TestInArray$'
 ```
 
-Run `TestMap2List` in the map package:
+Run `TestMap2List` in the maps package:
 
 ```bash
-go test -v ./map -run '^TestMap2List$'
+go test -v ./maps -run '^TestMap2List$'
 ```
