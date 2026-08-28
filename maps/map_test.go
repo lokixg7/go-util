@@ -2,60 +2,82 @@ package maps
 
 import (
 	"reflect"
-	"sort"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 // go test -v ./maps -run '^TestMap2List$'
 func TestMap2List(t *testing.T) {
 	type args struct {
-		m interface{}
+		m      interface{}
+		refRet interface{}
 	}
 	tests := []struct {
 		name    string
 		args    args
-		want    []string
+		want    interface{}
 		wantErr bool
 	}{
 		{
 			name: "string-map-values",
 			args: args{
-				m: map[string]string{"a": "1", "b": "2", "c": "3"},
+				m:      map[string]string{"a": "1", "b": "2", "c": "3"},
+				refRet: new([]string),
 			},
 			want: []string{"1", "2", "3"},
 		},
 		{
+			name: "int-map-values",
+			args: args{
+				m:      map[string]int{"a": 1, "b": 2, "c": 3},
+				refRet: new([]int),
+			},
+			want: []int{1, 2, 3},
+		},
+		{
+			name: "non-string-keys",
+			args: args{
+				m:      map[int]string{1: "a", 2: "b"},
+				refRet: new([]string),
+			},
+			want: []string{"a", "b"},
+		},
+		{
 			name: "empty-map",
 			args: args{
-				m: map[string]string{},
+				m:      map[string]string{},
+				refRet: new([]string),
+			},
+			want: []string{},
+		},
+		{
+			name: "nil-map",
+			args: args{
+				m:      map[string]string(nil),
+				refRet: new([]string),
 			},
 			want: []string{},
 		},
 		{
 			name: "not-a-map",
 			args: args{
-				m: []string{"1", "2"},
+				m:      []string{"1", "2"},
+				refRet: new([]string),
 			},
 			wantErr: true,
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			var ret []string
-			if got := Map2List(tt.args.m, &ret); (got != nil) != tt.wantErr {
-				t.Errorf("Map2List() error = %v, wantErr %v", got, tt.wantErr)
-				return
-			}
+			err := Map2List(tt.args.m, tt.args.refRet)
 			if tt.wantErr {
+				assert.Error(t, err)
 				return
 			}
 
-			sort.Strings(ret)
-			sort.Strings(tt.want)
-			if !reflect.DeepEqual(ret, tt.want) {
-				t.Errorf("Map2List() = %v, want %v", ret, tt.want)
-			}
-			t.Log(ret)
+			assert.NoError(t, err)
+			assert.ElementsMatch(t, tt.want, reflect.ValueOf(tt.args.refRet).Elem().Interface())
 		})
 	}
 }
