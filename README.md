@@ -1,6 +1,6 @@
 # go-util
 
-`go-util` is a lightweight collection of Go utilities for slice operations, struct reflection, and caller-name inspection.
+`go-util` is a lightweight collection of Go utilities for slice and map operations, struct reflection, and caller-name inspection.
 
 ## Requirements
 
@@ -17,6 +17,7 @@ Import the packages you need:
 ```go
 import (
 	"github.com/lokixg7/go-util/array"
+	maps "github.com/lokixg7/go-util/map"
 	"github.com/lokixg7/go-util/runtime"
 	"github.com/lokixg7/go-util/structs"
 )
@@ -84,6 +85,22 @@ joined := array.Explode(",", []string{"go", "util", "array"})
 
 > Elements passed to `InArray`, `Intersect`, `Diff`, and `Unique` must be comparable, such as strings, numbers, booleans, and pointers. Non-comparable values such as slices, maps, and functions are not supported. `Intersect`, `Diff`, and `Unique` use JSON encoding and decoding to write results, so the result parameter must be a pointer to a JSON-decodable slice.
 
+## Map Utilities
+
+Package: `github.com/lokixg7/go-util/map` (package name `maps`, since `map` is a Go keyword)
+
+### `Map2List`
+
+Extracts the values of a map into a slice.
+
+```go
+var result []string
+err := maps.Map2List(map[string]string{"a": "go", "b": "util"}, &result)
+// result contains "go" and "util"
+```
+
+> `Map2List` uses JSON encoding and decoding to write results, so the result parameter must be a pointer to a JSON-decodable slice.
+
 ## Struct Utilities
 
 Package: `github.com/lokixg7/go-util/structs`
@@ -148,4 +165,10 @@ Run `TestInArray` in the array package:
 
 ```bash
 go test -v ./array -run '^TestInArray$'
+```
+
+Run `TestMap2List` in the map package:
+
+```bash
+go test -v ./map -run '^TestMap2List$'
 ```
