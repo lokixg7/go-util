@@ -1,6 +1,6 @@
 # go-util
 
-`go-util` is a lightweight collection of Go utilities for slice and map operations, struct reflection, and caller-name inspection.
+`go-util` is a lightweight collection of Go utilities for slice and map operations, string manipulation, struct reflection, and caller-name inspection.
 
 ## Requirements
 
@@ -19,6 +19,7 @@ import (
 	"github.com/lokixg7/go-util/array"
 	"github.com/lokixg7/go-util/maps"
 	"github.com/lokixg7/go-util/runtime"
+	"github.com/lokixg7/go-util/strings"
 	"github.com/lokixg7/go-util/structs"
 )
 ```
@@ -101,6 +102,69 @@ err := maps.Map2List(map[string]string{"a": "go", "b": "util"}, &result)
 
 > `Map2List` uses JSON encoding and decoding to write results, so the result parameter must be a pointer to a JSON-decodable slice.
 
+## String Utilities
+
+Package: `github.com/lokixg7/go-util/strings`
+
+> All functions operate on runes, so multi-byte characters such as Chinese are counted and sliced correctly.
+
+### `Substr`
+
+Returns a substring by rune index and length. A negative start counts backward from the end of the string.
+
+```go
+sub := strings.Substr("hello world", 6, 5)
+// sub == "world"
+
+tail := strings.Substr("你好世界", -2, 2)
+// tail == "世界"
+```
+
+### `Truncate`
+
+Shortens a string to at most `maxLen` runes, appending a suffix when truncated.
+
+```go
+short := strings.Truncate("hello world", 8, "...")
+// short == "hello..."
+```
+
+### `SnakeCase`
+
+Converts CamelCase, PascalCase, or separated input to lower `snake_case`.
+
+```go
+snake := strings.SnakeCase("HTTPServer")
+// snake == "http_server"
+```
+
+### `CamelCase`
+
+Converts input to lower `camelCase`, splitting on underscores, hyphens, dots, and capitalization boundaries.
+
+```go
+camel := strings.CamelCase("HELLO_WORLD")
+// camel == "helloWorld"
+```
+
+### `PascalCase`
+
+Converts input to `UpperCamelCase`.
+
+```go
+pascal := strings.PascalCase("hello_world")
+// pascal == "HelloWorld"
+```
+
+### `Mask`
+
+Replaces the runes in the half-open interval `[start, end)` with a mask character (default `*`), useful for redacting phone numbers or emails.
+
+```go
+masked := strings.Mask("13812345678", 3, 7, "*")
+// masked == "138****5678"
+```
+
 ## Struct Utilities
 
 Package: `github.com/lokixg7/go-util/structs`
@@ -171,4 +235,10 @@ Run `TestMap2List` in the maps package:
 
 ```bash
 go test -v ./maps -run '^TestMap2List$'
+```
+
+Run `TestSubstr` in the strings package:
+
+```bash
+go test -v ./strings -run '^TestSubstr$'
 ```
