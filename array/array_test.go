@@ -163,6 +163,55 @@ func TestUnique(t *testing.T) {
 	}
 }
 
+// go test -v ./array -run '^TestMerge$'
+func TestMerge(t *testing.T) {
+	type args struct {
+		a interface{}
+		b interface{}
+	}
+	tests := []struct {
+		name string
+		args args
+		want []int64
+	}{
+		{
+			name: "int64-slice-merge",
+			args: args{
+				a: []int64{1, 2, 3},
+				b: []int64{4, 5, 6},
+			},
+			want: []int64{1, 2, 3, 4, 5, 6},
+		},
+		{
+			name: "merge-empty-slice",
+			args: args{
+				a: []int64{1, 2},
+				b: []int64{},
+			},
+			want: []int64{1, 2},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var ret []int64
+			if got := Merge(tt.args.a, tt.args.b, &ret); !reflect.DeepEqual(ret, tt.want) {
+				t.Errorf("Merge() = %v, want %v, err = %v", ret, tt.want, got)
+			}
+		})
+	}
+}
+
+// go test -v ./array -run '^TestMergeString$'
+func TestMergeString(t *testing.T) {
+	a := []string{"a", "b"}
+	b := []string{"c", "d"}
+
+	var ret []string
+	if got := Merge(a, b, &ret); !reflect.DeepEqual(ret, []string{"a", "b", "c", "d"}) {
+		t.Errorf("Merge() = %v, want [a b c d], err = %v", ret, got)
+	}
+}
+
 // go test -v ./array -run '^TestExplode$'
 func TestExplode(t *testing.T) {
 	type args struct {

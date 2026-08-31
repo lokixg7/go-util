@@ -96,6 +96,25 @@ func Unique(slice interface{}, refRet interface{}) error {
 	return err
 }
 
+// Merge appends all elements of a and b to refRet in order.
+func Merge(a, b, refRet interface{}) error {
+	var (
+		ifSlice []interface{}
+	)
+
+	for _, arr := range []interface{}{a, b} {
+		s := reflect.ValueOf(arr)
+		for i := 0; i < s.Len(); i++ {
+			ifSlice = append(ifSlice, s.Index(i).Interface())
+		}
+	}
+
+	jsonStr, _ := json.Marshal(ifSlice)
+	err := json.Unmarshal(jsonStr, &refRet)
+
+	return err
+}
+
 // Explode joins the elements of array with delimiter.
 func Explode(delimiter string, array interface{}) string {
 	var (
