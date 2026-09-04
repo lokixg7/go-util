@@ -76,7 +76,10 @@ func TestConvertToMap(t *testing.T) {
 				},
 				key: "Id",
 			},
-			want: nil,
+			want: map[interface{}]interface{}{
+				uint64(1): User{Id: 1, Name: "blue"},
+				uint64(2): User{Id: 2, Name: "crank"},
+			},
 		},
 		{
 			name: "elem struct pointer",
@@ -93,7 +96,10 @@ func TestConvertToMap(t *testing.T) {
 				},
 				key: "Id",
 			},
-			want: nil,
+			want: map[interface{}]interface{}{
+				uint64(1): &User{Id: 1, Name: "blue"},
+				uint64(2): &User{Id: 2, Name: "crank"},
+			},
 		},
 	}
 	for _, tt := range tests {
