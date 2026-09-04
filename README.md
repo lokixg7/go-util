@@ -1,6 +1,6 @@
 # go-util
 
-`go-util` is a lightweight collection of Go utilities for slice and map operations, string manipulation, struct reflection, and caller-name inspection.
+`go-util` is a lightweight collection of Go utilities for slice and map operations, string manipulation, struct reflection, hash and encoding helpers, and caller-name inspection.
 
 ## Requirements
 
@@ -17,6 +17,7 @@ Import the packages you need:
 ```go
 import (
 	"github.com/lokixg7/go-util/array"
+	"github.com/lokixg7/go-util/crypto"
 	"github.com/lokixg7/go-util/maps"
 	"github.com/lokixg7/go-util/runtime"
 	"github.com/lokixg7/go-util/strings"
@@ -202,6 +203,42 @@ byID, err := structs.ConvertToMap(users, "ID")
 // byID[uint64(1)] == User{ID: 1, Name: "Blue"}
 ```
 
+## Crypto Utilities
+
+Package: `github.com/lokixg7/go-util/crypto`
+
+### `MD5`, `SHA1`, `SHA256`
+
+Return the lowercase hex digest of the input.
+
+```go
+md5Digest := crypto.MD5("hello")
+// md5Digest == "5d41402abc4b2a76b9719d911017c592"
+
+sha256Digest := crypto.SHA256("hello")
+// sha256Digest == "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824"
+```
+
+### `HMACSHA256`
+
+Returns the lowercase hex HMAC-SHA256 digest of `text` using `key`, useful for API signatures and webhook verification.
+
+```go
+sig := crypto.HMACSHA256("secret-key", "message")
+```
+
+### `Base64Encode`, `Base64Decode`
+
+Encode and decode standard base64 strings.
+
+```go
+encoded := crypto.Base64Encode("hello")
+// encoded == "aGVsbG8="
+
+decoded, err := crypto.Base64Decode(encoded)
+// decoded == "hello", err == nil
+```
+
 ## Call Stack Utilities
 
 Package: `github.com/lokixg7/go-util/runtime`
@@ -241,4 +278,10 @@ Run `TestSubstr` in the strings package:
 
 ```bash
 go test -v ./strings -run '^TestSubstr$'
+```
+
+Run `TestMD5` in the crypto package:
+
+```bash
+go test -v ./crypto -run '^TestMD5$'
 ```
