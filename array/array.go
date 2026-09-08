@@ -115,6 +115,46 @@ func Merge(a, b, refRet interface{}) error {
 	return err
 }
 
+// Reverse writes the elements of slice to refRet in reverse order.
+func Reverse(slice interface{}, refRet interface{}) error {
+	ifSlice := make([]interface{}, 0)
+
+	s := reflect.ValueOf(slice)
+	for i := s.Len() - 1; i >= 0; i-- {
+		ifSlice = append(ifSlice, s.Index(i).Interface())
+	}
+
+	jsonStr, _ := json.Marshal(ifSlice)
+	err := json.Unmarshal(jsonStr, &refRet)
+
+	return err
+}
+
+// Chunk splits slice into chunks of size chunkSize and writes to refRet.
+func Chunk(slice interface{}, chunkSize int, refRet interface{}) error {
+	chunks := make([][]interface{}, 0)
+
+	s := reflect.ValueOf(slice)
+	length := s.Len()
+
+	for i := 0; i < length; i += chunkSize {
+		end := i + chunkSize
+		if end > length {
+			end = length
+		}
+		chunk := make([]interface{}, 0, end-i)
+		for j := i; j < end; j++ {
+			chunk = append(chunk, s.Index(j).Interface())
+		}
+		chunks = append(chunks, chunk)
+	}
+
+	jsonStr, _ := json.Marshal(chunks)
+	err := json.Unmarshal(jsonStr, &refRet)
+
+	return err
+}
+
 // Explode joins the elements of array with delimiter.
 func Explode(delimiter string, array interface{}) string {
 	var (

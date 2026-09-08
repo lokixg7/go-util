@@ -85,7 +85,17 @@ joined := array.Explode(",", []string{"go", "util", "array"})
 // joined == "go,util,array"
 ```
 
-> Elements passed to `InArray`, `Intersect`, `Diff`, and `Unique` must be comparable, such as strings, numbers, booleans, and pointers. Non-comparable values such as slices, maps, and functions are not supported. `Intersect`, `Diff`, and `Unique` use JSON encoding and decoding to write results, so the result parameter must be a pointer to a JSON-decodable slice.
+> Elements passed to `InArray`, `Intersect`, `Diff`, and `Unique` must be comparable, such as strings, numbers, booleans, and pointers. Non-comparable values such as slices, maps, and functions are not supported. `Intersect`, `Diff`, `Unique`, and `Reverse` use JSON encoding and decoding to write results, so the result parameter must be a pointer to a JSON-decodable slice.
+
+### `Reverse`
+
+Reverses the order of a slice and writes the result to the supplied result-slice pointer.
+
+```go
+var result []int64
+err := array.Reverse([]int64{1, 2, 3, 4}, &result)
+// result == []int64{4, 3, 2, 1}
+```
 
 ## Map Utilities
 

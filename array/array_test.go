@@ -212,6 +212,85 @@ func TestMergeString(t *testing.T) {
 	}
 }
 
+// go test -v ./array -run '^TestReverse$'
+func TestReverse(t *testing.T) {
+	tests := []struct {
+		name  string
+		slice interface{}
+		want  []int64
+	}{
+		{
+			name:  "int64-slice-reverse",
+			slice: []int64{1, 2, 3, 4},
+			want:  []int64{4, 3, 2, 1},
+		},
+		{
+			name:  "empty-slice",
+			slice: []int64{},
+			want:  []int64{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var ret []int64
+			if err := Reverse(tt.slice, &ret); !reflect.DeepEqual(ret, tt.want) {
+				t.Errorf("Reverse() = %v, want %v, err = %v", ret, tt.want, err)
+			}
+		})
+	}
+}
+
+// go test -v ./array -run '^TestReverseString$'
+func TestReverseString(t *testing.T) {
+	var ret []string
+	if err := Reverse([]string{"a", "b", "c"}, &ret); !reflect.DeepEqual(ret, []string{"c", "b", "a"}) {
+		t.Errorf("Reverse() = %v, want [c b a], err = %v", ret, err)
+	}
+}
+
+// go test -v ./array -run '^TestChunk$'
+func TestChunk(t *testing.T) {
+	tests := []struct {
+		name      string
+		slice     interface{}
+		chunkSize int
+		want      [][]int64
+	}{
+		{
+			name:      "even-chunks",
+			slice:     []int64{1, 2, 3, 4, 5, 6},
+			chunkSize: 2,
+			want:      [][]int64{{1, 2}, {3, 4}, {5, 6}},
+		},
+		{
+			name:      "uneven-chunks",
+			slice:     []int64{1, 2, 3, 4, 5},
+			chunkSize: 2,
+			want:      [][]int64{{1, 2}, {3, 4}, {5}},
+		},
+		{
+			name:      "chunk-size-larger-than-slice",
+			slice:     []int64{1, 2, 3},
+			chunkSize: 5,
+			want:      [][]int64{{1, 2, 3}},
+		},
+		{
+			name:      "empty-slice",
+			slice:     []int64{},
+			chunkSize: 2,
+			want:      [][]int64{},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			var ret [][]int64
+			if err := Chunk(tt.slice, tt.chunkSize, &ret); !reflect.DeepEqual(ret, tt.want) {
+				t.Errorf("Chunk() = %v, want %v, err = %v", ret, tt.want, err)
+			}
+		})
+	}
+}
+
 // go test -v ./array -run '^TestExplode$'
 func TestExplode(t *testing.T) {
 	type args struct {
