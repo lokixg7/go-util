@@ -18,6 +18,7 @@ Import the packages you need:
 import (
 	"github.com/lokixg7/go-util/array"
 	"github.com/lokixg7/go-util/crypto"
+	"github.com/lokixg7/go-util/datetime"
 	"github.com/lokixg7/go-util/maps"
 	"github.com/lokixg7/go-util/runtime"
 	"github.com/lokixg7/go-util/strings"
@@ -247,6 +248,61 @@ encoded := crypto.Base64Encode("hello")
 
 decoded, err := crypto.Base64Decode(encoded)
 // decoded == "hello", err == nil
+```
+
+## Date/Time Utilities
+
+Package: `github.com/lokixg7/go-util/datetime`
+
+### `CurrentTimestamp`, `UnixToTime`, `TimeToUnix`
+
+Convert between the current Unix timestamp, `time.Time`, and back.
+
+```go
+now := datetime.CurrentTimestamp()
+parsed := datetime.UnixToTime(now) // time.Time of now
+back := datetime.TimeToUnix(parsed) // equals now
+```
+
+### `FormatDate`, `FormatDateTime`, `Format`
+
+Format a `time.Time` with the built-in date/date-time layouts or a custom Go layout.
+
+```go
+datetime.FormatDate(time.Now())     // "2026-09-10"
+datetime.FormatDateTime(time.Now()) // "2026-09-10 12:30:45"
+datetime.Format(time.Now(), "2006/01/02")
+```
+
+### `ParseDate`, `ParseDateTime`, `Parse`
+
+Parse strings into `time.Time`.
+
+```go
+date, _ := datetime.ParseDate("2026-09-10")
+dateTime, _ := datetime.ParseDateTime("2026-09-10 12:30:45")
+custom, _ := datetime.Parse("2006/01/02", "2026/09/10")
+```
+
+### `TimestampToDateTime`, `DateTimeToTimestamp`
+
+Convert directly between Unix seconds and date-time strings.
+
+```go
+datetime.TimestampToDateTime(time.Now().Unix()) // local date-time string
+seconds, _ := datetime.DateTimeToTimestamp("2026-09-10 12:30:45")
+```
+
+> `Parse`, `ParseDate`, and `ParseDateTime` follow `time.Parse` semantics:
+> a string without a time zone indicator is interpreted as UTC.
+
+### `StartOfDay`, `EndOfDay`, `StartOfMonth`, `EndOfMonth`
+
+Get the first or last instant of the day or month that contains `t`, useful for date-range queries.
+
+```go
+begin := datetime.StartOfDay(time.Now())
+end := datetime.EndOfDay(time.Now())
 ```
 
 ## Call Stack Utilities
